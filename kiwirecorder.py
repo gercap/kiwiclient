@@ -37,9 +37,13 @@ class KiwiSoundRecorder(kiwiclient.KiwiSDRStream):
 
     def _setup_rx_params(self):
         mod    = self._options.modulation
-        lp_cut = self._options.lp_cut
-        hp_cut = self._options.hp_cut
-        if mod == 'am':
+        if mod == 'usb':
+            lp_cut = self._options.lp_cut
+            hp_cut = self._options.hp_cut
+        elif mod == 'lsb':
+            lp_cut = -self._options.hp_cut
+            hp_cut = -self._options.lp_cut
+        elif mod == 'am':
             # For AM, ignore the low pass filter cutoff
             lp_cut = -hp_cut
         self.set_mod(mod, lp_cut, hp_cut, self._freq)
