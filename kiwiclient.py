@@ -297,6 +297,7 @@ class KiwiSDRStream(KiwiSDRStreamBase):
             cs.real = samples[0:count:2]
             cs.imag = samples[1:count:2]
             self._process_iq_samples(seq, cs, rssi, gps)
+            self._process_iq_audio_samples(seq, cs, rssi, gps)
         else:
             if self._compression:
                 samples = self._decoder.decode(data)
@@ -332,6 +333,9 @@ class KiwiSDRStream(KiwiSDRStreamBase):
         pass
 
     def _process_iq_samples(self, seq, samples, rssi, gps):
+        pass
+
+    def _process_iq_audio_samples(self, seq, samples, rssi, gps):
         pass
 
     def _process_waterfall_samples(self, seq, samples):

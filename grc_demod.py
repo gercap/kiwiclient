@@ -1,9 +1,13 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
+#
+# SPDX-License-Identifier: GPL-3.0
+#
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Grc Demod
-# Generated: Sun Jul 22 21:31:43 2018
+# Generated: Sat Aug  4 17:44:58 2018
+# GNU Radio version: 3.7.12.0
 ##################################################
 
 if __name__ == '__main__':
@@ -55,6 +59,7 @@ class grc_demod(gr.top_block, Qt.QWidget):
         self.settings = Qt.QSettings("GNU Radio", "grc_demod")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
+
         ##################################################
         # Variables
         ##################################################
@@ -69,17 +74,12 @@ class grc_demod(gr.top_block, Qt.QWidget):
         self.tabs_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tabs_widget_0)
         self.tabs_grid_layout_0 = Qt.QGridLayout()
         self.tabs_layout_0.addLayout(self.tabs_grid_layout_0)
-        self.tabs.addTab(self.tabs_widget_0, 'Complex')
+        self.tabs.addTab(self.tabs_widget_0, 'waterfall')
         self.tabs_widget_1 = Qt.QWidget()
         self.tabs_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tabs_widget_1)
         self.tabs_grid_layout_1 = Qt.QGridLayout()
         self.tabs_layout_1.addLayout(self.tabs_grid_layout_1)
-        self.tabs.addTab(self.tabs_widget_1, 'Real')
-        self.tabs_widget_2 = Qt.QWidget()
-        self.tabs_layout_2 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tabs_widget_2)
-        self.tabs_grid_layout_2 = Qt.QGridLayout()
-        self.tabs_layout_2.addLayout(self.tabs_grid_layout_2)
-        self.tabs.addTab(self.tabs_widget_2, 'Compare')
+        self.tabs.addTab(self.tabs_widget_1, 'time and FFT')
         self.top_grid_layout.addWidget(self.tabs)
         self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_f(
         	1024, #size
@@ -134,6 +134,7 @@ class grc_demod(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0.enable_grid(False)
         self.qtgui_time_sink_x_0_0.enable_axis_labels(True)
         self.qtgui_time_sink_x_0_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0_0.enable_stem_plot(False)
 
         if not True:
           self.qtgui_time_sink_x_0_0.disable_legend()
@@ -209,6 +210,8 @@ class grc_demod(gr.top_block, Qt.QWidget):
         self.tabs_grid_layout_1.addWidget(self._qtgui_freq_sink_x_0_0_win)
         self.blocks_udp_source_0_0 = blocks.udp_source(gr.sizeof_short*1, '127.0.0.1', 10001, 4096, True)
         self.blocks_short_to_float_0 = blocks.short_to_float(1, 1)
+
+
 
         ##################################################
         # Connections

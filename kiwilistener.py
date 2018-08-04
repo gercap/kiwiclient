@@ -34,15 +34,17 @@ class KiwiSoundRecorder(kiwiclient.KiwiSDRStream):
 
     def _setup_rx_params(self):
         mod    = self._options.modulation
-        if mod == 'usb':
-            lp_cut = self._options.lp_cut
-            hp_cut = self._options.hp_cut
-        elif mod == 'lsb':
+        lp_cut = self._options.lp_cut
+        hp_cut = self._options.hp_cut
+        if mod == 'lsb':
             lp_cut = -self._options.hp_cut
             hp_cut = -self._options.lp_cut
-        elif mod == 'am':
+        elif mod == 'am' or mod == 'iq':
             # For AM, ignore the low pass filter cutoff
             lp_cut = -hp_cut
+        
+        print '-->',  mod, lp_cut, hp_cut, self._freq
+
         self.set_mod(mod, lp_cut, hp_cut, self._freq)
         if self._options.agc_gain != None:
             self.set_agc(on=False, gain=self._options.agc_gain)
@@ -52,6 +54,12 @@ class KiwiSoundRecorder(kiwiclient.KiwiSDRStream):
             self._set_snd_comp(False)
         self.set_inactivity_timeout(0)
         self.set_name(self._options.user)
+
+    def _process_iq_audio_samples(self, seq, complex_samples, rssi, gps):
+        sys.stdout.write('\rBlock: %08x, RSSI: %-04d' % (seq, rssi))
+        self._udp_socket.sendto(complex_samples, ("127.0.0.1", 10001))
+        real_samples = np.absolute(complex_samples)
+        pygame.mixer.Channel(0).queue(pygame.sndarray.make_sound(real_samples))
 
     def _process_audio_samples(self, seq, samples, rssi):
         sys.stdout.write('\rBlock: %08x, RSSI: %-04d' % (seq, rssi))
